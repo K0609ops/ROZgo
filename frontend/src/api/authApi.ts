@@ -38,7 +38,16 @@ export const authApi = {
       throw new Error(err.message || 'Login failed. Please check your credentials and try again.');
     }
   },
-  async register(data: { phone: string; password?: string; role: 'worker' | 'employer'; name: string; location?: string; primary_skill?: string; experience_years?: number; employer_type?: string; business_name?: string }): Promise<AuthResult> {
+  async register(data: { 
+    phone: string; password?: string; role: 'worker' | 'employer'; name: string; 
+    location?: string; primary_skill?: string; experience_years?: number; 
+    employer_type?: string; business_name?: string; avatar?: string;
+    dob_or_age?: string; gender?: string; preferred_language?: string;
+    state?: string; district?: string; city?: string; pincode?: string;
+    travel_radius?: string; selected_trades?: string[]; sub_skills?: string[];
+    experience_range?: string; experience_description?: string;
+    usual_availability?: string[]; available_today?: boolean;
+  }): Promise<AuthResult> {
     let cleanPhone = data.phone.replace(/\D/g, '').trim();
     if (cleanPhone.startsWith('91') && cleanPhone.length === 12) {
       cleanPhone = cleanPhone.slice(2);

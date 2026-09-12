@@ -65,11 +65,17 @@ export const ShareProfileModal: React.FC<ShareProfileModalProps> = ({
         <div className="p-6 overflow-y-auto space-y-6 text-center">
           {/* Worker Snapshot preview */}
           <div className="flex items-center gap-3 p-3.5 bg-neutral-50 dark:bg-darkbg-base rounded-2xl border border-neutral-200 dark:border-darkbg-border text-left">
-            <img 
-              src={worker.avatar} 
-              alt={worker.name} 
-              className="w-12 h-12 rounded-xl object-cover border border-neutral-200 dark:border-darkbg-border"
-            />
+            {worker.avatar ? (
+              <img 
+                src={worker.avatar} 
+                alt={worker.name} 
+                className="w-12 h-12 rounded-xl object-cover border border-neutral-200 dark:border-darkbg-border"
+              />
+            ) : (
+              <div className="w-12 h-12 rounded-xl border border-neutral-200 dark:border-darkbg-border bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
+                <span className="text-xl font-black text-neutral-400 opacity-30 uppercase">{worker.name?.charAt(0) || '?'}</span>
+              </div>
+            )}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
                 <p className="font-bold text-neutral-900 dark:text-white truncate">{worker.name}</p>

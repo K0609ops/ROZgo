@@ -92,6 +92,15 @@ export const WorkerMatchPage: React.FC = () => {
   const [date, setDate] = useState<string>('Today');
   const [time, setTime] = useState<string>('11:00 AM');
 
+  // Pre-fill the agreed date and time with the employer's preferred request
+  React.useEffect(() => {
+    const firstAgreement = activeAgreements.find(a => a.status === 'matching' || a.status === 'awaiting_confirmation');
+    if (firstAgreement) {
+      if (firstAgreement.date && date === 'Today') setDate(firstAgreement.date);
+      if (firstAgreement.time && time === '11:00 AM') setTime(firstAgreement.time);
+    }
+  }, [activeAgreements]);
+
   // Generated agreement view
   const [isAgreementOpen, setIsAgreementOpen] = useState(false);
   const [viewingAgreement, setViewingAgreement] = useState<BookingAgreement | null>(null);
@@ -547,7 +556,7 @@ export const WorkerMatchPage: React.FC = () => {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1.5">
-                Date
+                Agreed Date (Confirming)
               </label>
               <input
                 type="text"
@@ -560,7 +569,7 @@ export const WorkerMatchPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-1.5">
-                Time
+                Agreed Time (Confirming)
               </label>
               <input
                 type="text"

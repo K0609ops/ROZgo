@@ -105,7 +105,7 @@ export const emptyWorkerProfile: WorkerProfile = {
   labourNumber: '',
   name: '',
   phone: '',
-  avatar: 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=160&auto=format&fit=crop&q=80',
+  avatar: '',
   location: '',
   distanceKm: 0,
   primarySkill: 'worker',
@@ -231,6 +231,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               ...emptyWorkerProfile,
               ...prev,
               ...res.profile,
+              avatar: res.profile.avatar || prev.avatar || emptyWorkerProfile.avatar,
               labourNumber: res.profile.labour_no || res.profile.labourNo || res.profile.labourNumber || res.profile.id,
               primarySkill: res.profile.primary_skill || res.profile.primarySkill || prev.primarySkill,
               skills: res.profile.skills || prev.skills,
@@ -239,12 +240,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               reviewsCount: res.profile.reviews_count ?? prev.reviewsCount,
               isVerified: res.profile.verification_status === 'verified',
               verificationStatus: res.profile.verification_status || prev.verificationStatus,
+              dobOrAge: res.profile.dob_or_age || prev.dobOrAge,
+              gender: res.profile.gender || prev.gender,
+              preferredLanguage: (res.profile.languages && res.profile.languages[0]) || prev.preferredLanguage,
+              state: res.profile.state || prev.state,
+              district: res.profile.district || prev.district,
+              city: res.profile.city || prev.city,
+              pincode: res.profile.pincode || prev.pincode,
+              travelRadius: res.profile.service_area || prev.travelRadius,
+              experienceDescription: res.profile.bio || prev.experienceDescription,
+              usualAvailability: res.profile.availability || prev.usualAvailability,
             }));
           } else {
             setEmployerUser((prev) => ({
               ...emptyEmployerProfile,
               ...prev,
               ...res.profile,
+              avatar: res.profile.avatar || prev.avatar || emptyEmployerProfile.avatar,
               employerId: res.profile.id || prev.employerId,
               isVerified: res.profile.isVerified || false,
             }));
@@ -287,7 +299,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (typeof phoneOrProfile === 'string') {
       setWorkerUser((prev) => ({ ...prev, phone: phoneOrProfile }));
     } else if (phoneOrProfile) {
-      setWorkerUser(phoneOrProfile);
+      setWorkerUser((prev) => ({ 
+        ...emptyWorkerProfile, 
+        ...prev, 
+        ...phoneOrProfile,
+        avatar: (phoneOrProfile as any).avatar || prev.avatar || emptyWorkerProfile.avatar,
+        labourNumber: (phoneOrProfile as any).labour_no || (phoneOrProfile as any).labourNo || phoneOrProfile.labourNumber || phoneOrProfile.id || prev.labourNumber,
+        primarySkill: (phoneOrProfile as any).primary_skill || phoneOrProfile.primarySkill || prev.primarySkill,
+        skills: (phoneOrProfile as any).skills || prev.skills,
+        experienceYears: (phoneOrProfile as any).experience_years ?? phoneOrProfile.experienceYears ?? prev.experienceYears,
+        rating: phoneOrProfile.rating ?? prev.rating,
+        isVerified: (phoneOrProfile as any).verification_status === 'verified',
+        verificationStatus: (phoneOrProfile as any).verification_status || prev.verificationStatus,
+        dobOrAge: (phoneOrProfile as any).dob_or_age || phoneOrProfile.dobOrAge || prev.dobOrAge,
+        gender: (phoneOrProfile as any).gender || phoneOrProfile.gender || prev.gender,
+        preferredLanguage: ((phoneOrProfile as any).languages && (phoneOrProfile as any).languages[0]) || phoneOrProfile.preferredLanguage || prev.preferredLanguage,
+        state: (phoneOrProfile as any).state || phoneOrProfile.state || prev.state,
+        district: (phoneOrProfile as any).district || phoneOrProfile.district || prev.district,
+        city: (phoneOrProfile as any).city || phoneOrProfile.city || prev.city,
+        pincode: (phoneOrProfile as any).pincode || phoneOrProfile.pincode || prev.pincode,
+        travelRadius: (phoneOrProfile as any).service_area || phoneOrProfile.travelRadius || prev.travelRadius,
+        experienceDescription: (phoneOrProfile as any).bio || phoneOrProfile.experienceDescription || prev.experienceDescription,
+        usualAvailability: (phoneOrProfile as any).availability || phoneOrProfile.usualAvailability || prev.usualAvailability,
+      }));
     }
   };
 
@@ -297,7 +331,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (typeof phoneOrProfile === 'string') {
       setEmployerUser((prev) => ({ ...prev, phone: phoneOrProfile }));
     } else if (phoneOrProfile) {
-      setEmployerUser(phoneOrProfile);
+      setEmployerUser((prev) => ({ 
+        ...emptyEmployerProfile, 
+        ...prev, 
+        ...phoneOrProfile,
+        avatar: (phoneOrProfile as any).avatar || prev.avatar || emptyEmployerProfile.avatar,
+        employerId: phoneOrProfile.id || prev.employerId,
+        isVerified: phoneOrProfile.isVerified || false,
+      }));
     }
   };
 
@@ -305,6 +346,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('rozgo_auth_token');
     localStorage.removeItem('rozgo_worker_profile');
     localStorage.removeItem('rozgo_employer_profile');
+    apiClient.setToken(null);
     setIsLoggedIn(false);
     setWorkerUser(emptyWorkerProfile);
     setEmployerUser(emptyEmployerProfile);
@@ -343,7 +385,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       labourNumber,
       name: data.name || 'Worker',
       phone: data.phone || '+91 98765 43210',
-      avatar: data.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=160&auto=format&fit=crop&q=80',
+      avatar: data.avatar || '',
       location: data.location || [data.city, data.state].filter(Boolean).join(', ') || 'Gurgaon, Haryana',
       distanceKm: 1.5,
       primarySkill: data.primarySkill || (data.selectedTrades && data.selectedTrades[0]) || 'plumber',
@@ -395,6 +437,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       location: data.location,
       primary_skill: data.primarySkill,
       experience_years: data.experienceYears,
+      avatar: data.avatar,
+      dob_or_age: data.dobOrAge,
+      gender: data.gender,
+      preferred_language: data.preferredLanguage,
+      state: data.state,
+      district: data.district,
+      city: data.city,
+      pincode: data.pincode,
+      travel_radius: data.travelRadius,
+      selected_trades: data.selectedTrades,
+      sub_skills: data.subSkills,
+      experience_range: data.experienceRange,
+      experience_description: data.experienceDescription,
+      usual_availability: data.usualAvailability,
+      available_today: data.availableToday,
     });
 
     if (res.profile && res.profile.id) {
@@ -565,7 +622,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email: data.email,
       dobOrAge: data.dobOrAge,
       gender: data.gender,
-      avatar: data.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&auto=format&fit=crop&q=80',
+      avatar: data.avatar || '',
       employerType: data.employerType || 'individual',
       propertyUnitsCount: data.propertyUnitsCount,
       propertyType: data.propertyType,

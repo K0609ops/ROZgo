@@ -69,8 +69,7 @@ export const WorkerProfileHeader: React.FC<WorkerProfileHeaderProps> = ({
   };
 
   const handleRemovePhoto = () => {
-    const defaultAvatar =
-      'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=400&auto=format&fit=crop&q=80';
+    const defaultAvatar = '';
     if (onUpdatePhoto) {
       onUpdatePhoto(defaultAvatar);
     }
@@ -86,12 +85,16 @@ export const WorkerProfileHeader: React.FC<WorkerProfileHeaderProps> = ({
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6 relative z-10">
           {/* Profile Photo with Edit trigger */}
           <div className="relative group flex-shrink-0">
-            <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-3xl overflow-hidden border-4 border-white dark:border-darkbg-surface shadow-soft bg-neutral-100 dark:bg-neutral-800">
-              <img
-                src={worker.avatar}
-                alt={worker.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
+            <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-3xl overflow-hidden border-4 border-white dark:border-darkbg-surface shadow-soft bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-400">
+              {worker.avatar ? (
+                <img
+                  src={worker.avatar}
+                  alt={worker.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              ) : (
+                <span className="text-4xl uppercase font-black opacity-20">{worker.name?.charAt(0) || '?'}</span>
+              )}
             </div>
 
             {/* Change photo button */}

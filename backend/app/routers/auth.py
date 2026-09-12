@@ -113,6 +113,13 @@ async def register_user(req: RegisterRequest):
         "name": name,
         "phone": phone,
         "location": req.location or "Delhi NCR",
+        "avatar": req.avatar,
+        "dob_or_age": req.dob_or_age,
+        "gender": req.gender,
+        "state": req.state,
+        "district": req.district,
+        "city": req.city,
+        "pincode": req.pincode,
     }
 
     if role == "worker":
@@ -125,6 +132,11 @@ async def register_user(req: RegisterRequest):
             "rating": 5.0,
             "reviews_count": 0,
             "verification_status": "pending",
+            "skills": req.sub_skills or req.selected_trades or [],
+            "bio": req.experience_description or "",
+            "languages": [req.preferred_language] if req.preferred_language else [],
+            "service_area": req.travel_radius or "Within 10 km",
+            "availability": req.usual_availability or [],
         })
     else:
         profile_data.update({

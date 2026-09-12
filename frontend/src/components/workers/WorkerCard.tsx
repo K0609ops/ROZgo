@@ -25,11 +25,17 @@ export const WorkerCard: React.FC<WorkerCardProps> = ({
         {/* Top: Avatar, Name, Verification, Rating */}
         <div className="flex items-start gap-4">
           <div className="relative">
-            <img
-              src={worker.avatar}
-              alt={worker.name}
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border-2 border-rozgo-100 dark:border-darkbg-border shadow-xs"
-            />
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 border-rozgo-100 dark:border-darkbg-border shadow-xs bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center flex-shrink-0">
+              {worker.avatar ? (
+                <img
+                  src={worker.avatar}
+                  alt={worker.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-2xl font-black text-neutral-400 opacity-30 uppercase">{worker.name?.charAt(0) || '?'}</span>
+              )}
+            </div>
             {worker.isVerified && (
               <span
                 className="absolute -bottom-1 -right-1 bg-rozgo-900 text-white p-1 rounded-full shadow-xs"

@@ -61,11 +61,17 @@ export const WorkerProfileModal: React.FC<WorkerProfileModalProps> = ({
         {/* Worker Header Banner */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-neutral-200 dark:border-darkbg-border">
           <div className="flex items-center gap-4">
-            <img
-              src={worker.avatar}
-              alt={worker.name}
-              className="w-20 h-20 sm:w-22 sm:h-22 rounded-3xl object-cover border-2 border-white dark:border-darkbg-card shadow-soft shrink-0"
-            />
+            <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-3xl overflow-hidden border-2 border-white dark:border-darkbg-card shadow-soft shrink-0 bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
+              {worker.avatar ? (
+                <img
+                  src={worker.avatar}
+                  alt={worker.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-3xl font-black text-neutral-400 opacity-30 uppercase">{worker.name?.charAt(0) || '?'}</span>
+              )}
+            </div>
             <div className="space-y-1">
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-2xl font-black text-neutral-900 dark:text-white">

@@ -195,7 +195,7 @@ export const ActiveBookingCard: React.FC<ActiveBookingCardProps> = ({
               size="md"
               className="sm:ml-auto"
               leftIcon={<CheckCircle2 className="w-4 h-4" />}
-              onClick={() => setIsConfirmOpen(true)}
+              onClick={onCompleteWork}
             >
               Work Completed
             </Button>
@@ -264,49 +264,7 @@ export const ActiveBookingCard: React.FC<ActiveBookingCardProps> = ({
         </div>
       </Modal>
 
-      {/* Work Completion Confirmation Dialog */}
-      <Modal
-        isOpen={isConfirmOpen}
-        onClose={() => setIsConfirmOpen(false)}
-        title="Confirm Work Completion"
-        maxWidth="sm"
-      >
-        <div className="text-center py-2 space-y-4">
-          <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 flex items-center justify-center mx-auto">
-            <CheckCircle2 className="w-8 h-8" />
-          </div>
 
-          <h4 className="text-xl font-bold text-neutral-900 dark:text-white">
-            Are you sure the work is completed?
-          </h4>
-
-          <p className="text-xs text-neutral-600 dark:text-neutral-400">
-            This will mark the booking as finished and open the mutual review screen so you can rate your experience.
-          </p>
-
-          <div className="flex gap-3 pt-2">
-            <Button
-              variant="outline"
-              size="md"
-              fullWidth
-              onClick={() => setIsConfirmOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="success"
-              size="md"
-              fullWidth
-              onClick={() => {
-                setIsConfirmOpen(false);
-                onCompleteWork();
-              }}
-            >
-              Yes, Complete
-            </Button>
-          </div>
-        </div>
-      </Modal>
     </>
   );
 };

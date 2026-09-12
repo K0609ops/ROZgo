@@ -130,7 +130,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
             isVerified: w.verified !== undefined ? w.verified : true,
             verificationStatus: w.verificationStatus || 'verified',
             reviews: w.reviews || [],
-            avatar: w.avatar || 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=400&auto=format&fit=crop&q=80',
+            avatar: w.avatar || '',
           }));
           setLiveWorkers(normalized);
           console.log(`%c[ROZgo Live Data]%c Loaded ${normalized.length} real workers from Supabase`, 'color: #10b981; font-weight: bold;', 'color: auto;');
@@ -177,7 +177,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
                       name: 'raj',
                       labourNumber: 'hr-gu-0001',
                       phone: '+91 1234567890',
-                      avatar: 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=160&auto=format&fit=crop&q=80',
+                      avatar: '',
                     }
                   ],
                   workersCount: b.workersCount || 1,
@@ -258,7 +258,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
                 name: 'raj',
                 labourNumber: 'hr-gu-0001',
                 phone: '+91 1234567890',
-                avatar: 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=160&auto=format&fit=crop&q=80',
+                avatar: '',
               }
             ],
             workersCount: (b.workers && b.workers.length) || 1,
@@ -732,8 +732,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
           name: 'Ramesh Kumar',
           labourNumber: 'RZG-104582',
           phone: '+91 98765 43210',
-          avatar:
-            'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=160&auto=format&fit=crop&q=80',
+          avatar: '',
         },
       ],
       workersCount: job.workersNeeded || 1,
